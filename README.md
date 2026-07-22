@@ -3,7 +3,7 @@
 > **Live Demo → [ai-interview-platform-one-wine.vercel.app](https://ai-interview-platform-one-wine.vercel.app)**
 > **GitHub → [amaymishra1104/AI-INTERVIEW-COPILOT](https://github.com/amaymishra1104/AI-INTERVIEW-COPILOT)**
 
-![AI Interview Copilot Screenshot](./assets/screenshot.png)
+
 
 ---
 

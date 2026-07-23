@@ -18,7 +18,14 @@ import Footer from "@/components/Footer";
 import ShapeGrid from "@/components/ShapeGrid";
 
 export default function MentorPage() {
-  const { userId, isLoaded } = useUser();
+  const { user, isLoaded, isSignedIn } = useUser();
+
+  const userId = user?.id;
+
+  console.log("isLoaded:", isLoaded);
+  console.log("isSignedIn:", isSignedIn);
+  console.log("user:", user);
+  console.log("userId:", userId);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [stats, setStats] = useState(null);
@@ -94,40 +101,52 @@ export default function MentorPage() {
 
   const generatePlan = async () => {
   if (!isLoaded) {
-    toast.error("Authentication is still loading.");
+    toast.error("Authentication is loading...");
     return;
   }
 
-  if (!userId) {
+  if (!isSignedIn || !userId) {
     toast.error("Please sign in first.");
-    console.log("userId:", userId);
+    console.log("User:", user);
     return;
   }
 
   const userApiKey = loadGeminiKey();
-    if (!userApiKey) {
-      toast.error("Please set your Gemini API Key in the top navigation bar first.");
-      return;
-    }
-    setGenerating(true);
-    setError("");
-    try {
-      const res = await axios.post(
-        `${getApiBase()}/mentor/generate`,
-        { clerkId: userId, userApiKey, targetRole: targetRole || undefined },
-        { timeout: 90000 }
-      );
-      setStats(res.data.stats);
-      setRoadmap(res.data.roadmap);
-      setHasData(true);
-      toast.success("AI Growth Roadmap generated!");
-    } catch (e) {
-      setError(e.response?.data?.error || "Failed to generate roadmap.");
-      toast.error("Roadmap generation failed.");
-    } finally {
-      setGenerating(false);
-    }
-  };
+
+  if (!userApiKey) {
+    toast.error("Please set your Gemini API Key first.");
+    return;
+  }
+
+  setGenerating(true);
+  setError("");
+
+  try {
+    const res = await axios.post(
+      `${getApiBase()}/mentor/generate`,
+      {
+        clerkId: userId,
+        userApiKey,
+        targetRole,
+      },
+      {
+        timeout: 90000,
+      }
+    );
+
+    setStats(res.data.stats);
+    setRoadmap(res.data.roadmap);
+    setHasData(true);
+
+    toast.success("AI Growth Roadmap generated!");
+  } catch (e) {
+    console.error(e);
+    setError(e.response?.data?.error || "Failed to generate roadmap.");
+    toast.error(e.response?.data?.error || "Roadmap generation failed.");
+  } finally {
+    setGenerating(false);
+  }
+};
 
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "#faf9f5", color: "#141413" }}>

@@ -1,7 +1,7 @@
 # AI Interview Copilot — by Amay Mishra
 
 > **Live Demo → [ai-interview-platform-one-wine.vercel.app](https://ai-interview-platform-one-wine.vercel.app)**
-> **GitHub → [amaymishra1104/AI-INTERVIEW-COPILOT](https://github.com/amaymishra1104/AI-INTERVIEW-COPILOT)**
+> **GitHub → [amaymishra1104/AI-INTERVIEW-COPILOT](https://github.com/amaymishra1104/Hire.IQ.git)**
 
 
 
@@ -9,7 +9,7 @@
 
 ## What is this?
 
-AI Interview Copilot is a **production-grade, agentic AI interview simulation engine** powered by Google Gemini. It runs a full multi-agent streaming pipeline to generate adaptive questions, evaluate your answers in real time, and build a neural profile of your strengths and weaknesses — across 5 progressively calibrated questions.
+Hire.IQ is a **production-grade, agentic AI interview simulation engine** powered by Google Gemini. It runs a full multi-agent streaming pipeline to generate adaptive questions, evaluate your answers in real time, and build a neural profile of your strengths and weaknesses — across 5 progressively calibrated questions.
 
 Users bring their own Gemini API key (BYOK), drag-and-drop their resume for personalized questions, and choose between voice answers, text answers, or a full coding round with an interactive code execution environment.
 

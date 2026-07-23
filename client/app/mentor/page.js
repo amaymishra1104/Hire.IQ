@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useAuth } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { motion } from "framer-motion";
 import {
   ArrowLeft, BrainCircuit, Target, TrendingUp, BookOpen,
@@ -18,7 +18,7 @@ import Footer from "@/components/Footer";
 import ShapeGrid from "@/components/ShapeGrid";
 
 export default function MentorPage() {
-  const { userId, isLoaded } = useAuth();
+  const { userId, isLoaded } = useUser();
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [stats, setStats] = useState(null);
@@ -93,7 +93,18 @@ export default function MentorPage() {
   };
 
   const generatePlan = async () => {
-    const userApiKey = loadGeminiKey();
+  if (!isLoaded) {
+    toast.error("Authentication is still loading.");
+    return;
+  }
+
+  if (!userId) {
+    toast.error("Please sign in first.");
+    console.log("userId:", userId);
+    return;
+  }
+
+  const userApiKey = loadGeminiKey();
     if (!userApiKey) {
       toast.error("Please set your Gemini API Key in the top navigation bar first.");
       return;

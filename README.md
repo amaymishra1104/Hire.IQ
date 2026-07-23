@@ -1,7 +1,7 @@
-# AI Interview Copilot — by Amay Mishra
+# Hire.IQ - AI Interview Copilot — by Amay Mishra
 
 > **Live Demo → [ai-interview-platform-one-wine.vercel.app](https://ai-interview-platform-one-wine.vercel.app)**
-> **GitHub → [amaymishra1104/AI-INTERVIEW-COPILOT](https://github.com/amaymishra1104/Hire.IQ.git)**
+> **GitHub → [amaymishra1104/Hire.IQ](https://github.com/amaymishra1104/Hire.IQ.git)**
 
 
 

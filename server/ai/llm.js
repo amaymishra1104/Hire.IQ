@@ -1,13 +1,29 @@
-const { GoogleGenAI } = require("@google/genai");
+const Groq = require("groq-sdk");
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-// Default AI instance using the platform's own env key (fallback)
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-
-// Returns an AI instance using the user's own key if provided, else falls back to platform key
-function getAI(userApiKey) {
-  if (userApiKey && userApiKey.trim().length > 10) {
-    return new GoogleGenAI({ apiKey: userApiKey.trim() });
+const fakeModels = {
+  generateContent: async ({ contents }) => {
+    const chatCompletion = await groq.chat.completions.create({
+      messages: [{ role: "user", content: contents }],
+      model: "llama3-8b-8192",
+    });
+    return { text: () => chatCompletion.choices[0]?.message?.content || "" };
+  },
+  generateContentStream: async function* ({ contents }) {
+    const stream = await groq.chat.completions.create({
+      messages: [{ role: "user", content: contents }],
+      model: "llama3-8b-8192",
+      stream: true,
+    });
+    for await (const chunk of stream) {
+      yield { text: () => chunk.choices[0]?.delta?.content || "" };
+    }
   }
+};
+
+const ai = { models: fakeModels };
+
+function getAI(userApiKey) {
   return ai;
 }
 
@@ -34,20 +50,11 @@ function extractResponseText(response) {
 }
 
 function hasUsableApiKey(userApiKey) {
-  const userKey = userApiKey?.trim();
-  const platformKey = process.env.GEMINI_API_KEY?.trim();
-  return (userKey && userKey.length > 10) || (platformKey && platformKey.length > 10);
+  return true;
 }
 
 function mapGeminiError(error) {
-  const msg = error?.message || String(error);
-  if (error?.status === 400 && /API key/i.test(msg)) {
-    return { status: 401, error: "Invalid Gemini API key. Get a fresh key at aistudio.google.com/apikey" };
-  }
-  if (error?.status === 429 || /quota|rate limit/i.test(msg)) {
-    return { status: 429, error: "Gemini rate limit hit. Wait a minute and try again." };
-  }
-  return { status: 500, error: "AI service error. Check your Gemini API key and try again." };
+  return { status: 500, error: error.message || "AI service error." };
 }
 
 async function generateQuestion(role, userApiKey, resumeContext = null, isCodingRound = false, candidateName = null) {
@@ -88,7 +95,7 @@ Rules:
   try {
     const client = getAI(userApiKey);
     const response = await client.models.generateContent({
-      model: "gemini-3.6-flash",
+      model: "gemini-1.5-flash",
       contents: prompt,
     });
     const firstName = getFirstName(resumeContext, candidateName);
@@ -152,7 +159,7 @@ async function* streamQuestionChunks(role, userApiKey, resumeContext = null, isC
   const firstName = getFirstName(resumeContext, candidateName);
   const client = getAI(userApiKey);
   const stream = await client.models.generateContentStream({
-    model: "gemini-3.6-flash",
+    model: "gemini-1.5-flash",
     contents: prompt,
   });
   for await (const chunk of stream) {

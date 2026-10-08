@@ -94,36 +94,7 @@ export default function TopNav({ onOpenKeyModal }) {
 
       {/* Right controls cluster */}
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        {/* Gemini API Key indicator */}
-        <button
-          onClick={onOpenKeyModal}
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 6,
-            padding: "5px 12px",
-            borderRadius: 9999,
-            backgroundColor: "#f5f0e8",
-            border: `1px solid ${hasGeminiKey ? "#5db872" : "#cc785c"}`,
-            fontSize: 12,
-            fontWeight: 500,
-            color: "#141413",
-            cursor: "pointer",
-            transition: "all 0.15s ease",
-          }}
-        >
-          {hasGeminiKey ? (
-            <>
-              <CheckCircle size={13} color="#5db872" />
-              <span>Gemini AI Ready</span>
-            </>
-          ) : (
-            <>
-              <Key size={13} color="#cc785c" />
-              <span style={{ color: "#cc785c", fontWeight: 600 }}>Set Gemini Key</span>
-            </>
-          )}
-        </button>
+
 
         {/* User Auth */}
         {isLoaded && (

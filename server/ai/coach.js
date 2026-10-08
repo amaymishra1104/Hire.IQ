@@ -55,7 +55,7 @@ Respond with raw JSON only (no markdown fences):
   "encouragement": "One genuine sentence of motivation tailored to their progress"
 }`;
 
-  const res = await client.models.generateContent({ model: "gemini-3.6-flash", contents: prompt });
+  const res = await client.models.generateContent({ model: "gemini-1.5-flash", contents: prompt });
   let text = typeof res.text === "function" ? res.text() : (res.text || "");
   text = text.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
 

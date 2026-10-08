@@ -4,8 +4,7 @@ const GEMINI_KEY = "Hire_gemini_key";
 const LEGACY_GEMINI_KEY = "careerforge_gemini_key";
 
 export function loadGeminiKey() {
-  if (typeof window === "undefined") return null;
-  return sessionStorage.getItem(GEMINI_KEY) || sessionStorage.getItem(LEGACY_GEMINI_KEY);
+  return "server-side-groq-key";
 }
 
 export function saveGeminiKey(key) {

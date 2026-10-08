@@ -65,7 +65,7 @@ Requirements:
     try {
       const client = getAI(userApiKey);
       const response = await client.models.generateContent({
-        model: "gemini-3.6-flash",
+        model: "gemini-1.5-flash",
         contents: prompt,
       });
 

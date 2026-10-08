@@ -41,7 +41,7 @@ ${firstName ? `- You may use the candidate's first name (${firstName}) naturally
   try {
     const client = getAI(userApiKey);
     const response = await client.models.generateContent({
-      model: "gemini-3.6-flash",
+      model: "gemini-1.5-flash",
       contents: prompt,
     });
     
@@ -98,7 +98,7 @@ async function* streamFollowUpChunks(role, previousQuestion, userAnswer, evaluat
   const prompt = buildFollowUpPrompt(role, previousQuestion, userAnswer, evaluationScore, difficulty, isCodingRound, firstName, language);
   const client = getAI(userApiKey);
   const stream = await client.models.generateContentStream({
-    model: "gemini-3.6-flash",
+    model: "gemini-1.5-flash",
     contents: prompt,
   });
   for await (const chunk of stream) {

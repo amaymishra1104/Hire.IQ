@@ -21,7 +21,7 @@ Return ONLY a valid JSON object, no markdown, no extra text:
   try {
     const client = getAI(userApiKey);
     const response = await client.models.generateContent({
-      model: "gemini-3.6-flash",
+      model: "gemini-1.5-flash",
       contents: prompt,
     });
     let text = extractResponseText(response);

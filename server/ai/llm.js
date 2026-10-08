@@ -5,14 +5,14 @@ const fakeModels = {
   generateContent: async ({ contents }) => {
     const chatCompletion = await groq.chat.completions.create({
       messages: [{ role: "user", content: contents }],
-      model: "llama3-8b-8192",
+      model: "openai/gpt-oss-20b",
     });
     return { text: () => chatCompletion.choices[0]?.message?.content || "" };
   },
   generateContentStream: async function* ({ contents }) {
     const stream = await groq.chat.completions.create({
       messages: [{ role: "user", content: contents }],
-      model: "llama3-8b-8192",
+      model: "openai/gpt-oss-20b",
       stream: true,
     });
     for await (const chunk of stream) {
